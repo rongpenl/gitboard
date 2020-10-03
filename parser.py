@@ -40,6 +40,7 @@ def TwitterParser(Parser):
     def run(self) -> pd.DataFrame:
         pass
 
+
 def LinkedInParser(Parser):
     def connect(self):
         pass
@@ -52,6 +53,7 @@ def LinkedInParser(Parser):
 
     def run(self) -> pd.DataFrame:
         pass
+
 
 def GitHubParser(Parser):
     def connect(self):
