@@ -10,10 +10,12 @@ This repo is also an educational repo for DSI students.
 
 ### Topics which this repo covered are listed.
 
-1. Web parsing.
-   1. For GitHub or Twitter. There is no need to use credentials.
-2. Browser automation.
-   1. For LinkedIn, browser automation is performed.
+1. Web parsing and API calling
+   1. For GitHub committing activity, web parsing and direct API calling are performed.
+2. Utlizing available packages
+   1. For LinkedIn and Twitter, available packages are used
+   2. For twitter: [twint](https://github.com/twintproject/twint)
+   3. For LinkedIn: [linkedin-api](https://github.com/tomquirk/linkedin-api)
 3. Pandas
    1. building pandas DataFrame from raw data
 4. Flask (Dash)

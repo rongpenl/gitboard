@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
-from bs4 import BeautifulSoup
-import requests
 import pandas as pd
+from configs import BASE_GITHUB_URL, BASE_TWITTER_URL
 
 
 class Parser():
@@ -27,7 +26,7 @@ class Parser():
         pass
 
 
-def TwitterParser(Parser):
+class TwitterParser(Parser):
     def connect(self):
         pass
 
@@ -41,7 +40,7 @@ def TwitterParser(Parser):
         pass
 
 
-def LinkedInParser(Parser):
+class LinkedInParser(Parser):
     def connect(self):
         pass
 
@@ -55,7 +54,7 @@ def LinkedInParser(Parser):
         pass
 
 
-def GitHubParser(Parser):
+class GitHubParser(Parser):
     def connect(self):
         pass
 
