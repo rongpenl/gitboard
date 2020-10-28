@@ -8,7 +8,7 @@ var lax3Students = [
   {
     name: "Evgeny Grobov",
     github_id: "evgenygrobov",
-    capstone1_repo: null,
+    capstone1_repo: "AIRBNB_NYC",
   },
   {
     name: "Joshua Chow",
@@ -23,7 +23,7 @@ var lax3Students = [
   {
     name: "Mary MacCarthy",
     github_id: "marymac17",
-    capstone1_repo: null,
+    capstone1_repo: "capstone_one-",
   },
   {
     name: "Opa Towobola",
@@ -42,7 +42,7 @@ var repoEndpoint = "https://api.github.com/repos/";
 var cap1RepoInfo = [];
 var cap1RepoCommits = [];
 
-function fetchCap1Repo() {
+async function fetchCap1Repo() {
   for (var i = 0; i < lax3Students.length; i++) {
     var student = lax3Students[i];
     // fetch repo information
@@ -51,7 +51,7 @@ function fetchCap1Repo() {
         repoEndpoint + student["github_id"] + "/" + student["capstone1_repo"];
       var commitUrl = url + "/commits";
       var repoName = student["capstone1_repo"];
-      fetch(url)
+      await fetch(url)
         .then((data) => {
           return data.json();
         })
@@ -59,7 +59,7 @@ function fetchCap1Repo() {
           res.repoName = repoName;
           cap1RepoInfo.push(res);
         });
-      fetch(commitUrl)
+      await fetch(commitUrl)
         .then((data) => {
           return data.json();
         })
@@ -107,8 +107,9 @@ function populateProfile() {
     "profile-table-container"
   );
 }
-
-function populateProject() {
+async function populateProject() {
+  // fetch repo information on start
+  await fetchCap1Repo();
   var projectTableContainer = document.getElementById(
     "project-table-container"
   );
@@ -118,9 +119,65 @@ function populateProject() {
   //   populate project table head
   // html-url, language, user avator, student name, student git name,
   // last push time, last update time
-  var projectTableHeader = document.createElement("thead");
 
-  fetchCap1Repo();
+  createCapHeader(projectTable);
+  createCapBody(projectTable);
 
   //   populate project table body
+}
+
+function createCapHeader(projectTable) {
+  var projectTableHeader = document.createElement("thead");
+  projectTable.appendChild(projectTableHeader);
+  // append header row
+  headerRow = document.createElement("tr");
+  headerRow.setAttribute("class", "row100 head");
+  projectTableHeader.appendChild(headerRow);
+  // header row
+  colNames = [
+    "Creator",
+    "GitHub User",
+    "Latest Update Time",
+    "Latest Commit Message",
+    "Commits in 48 Hrs",
+    "Programming Language",
+    "#Open Issues",
+  ];
+  emptyHeaderCell = document.createElement("th");
+  emptyHeaderCell.setAttribute("class", "column100 column1");
+  emptyHeaderCell.setAttribute("data-column", "column1");
+  headerRow.appendChild(emptyHeaderCell);
+  for (var i = 0; i < colNames.length; i++) {
+    headerCell = document.createElement("th");
+    class_ = "column100 column" + String(i + 2);
+    column_ = "column" + String(i + 2);
+    headerCell.setAttribute("class", class_);
+    headerCell.setAttribute("data-column", column_);
+    headerRow.appendChild(headerCell);
+    headerCell.innerHTML = colNames[i];
+  }
+}
+
+function createCapBody(projectTable) {
+  var projectTableBody = document.createElement("tbody");
+  projectTable.appendChild(projectTableBody);
+  // create project info row by row
+  for (var i =0; i < lax3Students.length; i++){
+// create a row
+    var dataRow = document.createElement("tr");
+    projectTableBody.appendChild(dataRow);
+    dataRow.setAttribute("class","row100");
+    // repo name
+    var repoNameCell = document.createElement("td");
+    repoNameCell.setAttribute("class", "column100 column1");
+    repoNameCell.setAttribute("data-column", "column1");
+    repoNameCell.innerHTML = cap1RepoInfo[i]["name"]
+    dataRow.appendChild(repoNameCell);
+
+    //  append each column cell
+    for (var j =0; j< colNames.length + 1; j++){
+      class_ = "column100 column" + String(i + 2);
+      column_ = "column" + String(i + 2);
+    }
+  }
 }
