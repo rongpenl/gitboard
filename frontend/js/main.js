@@ -137,11 +137,11 @@ function createCapHeader(projectTable) {
   colNames = [
     "Creator",
     "GitHub User",
-    "Latest Update Time",
-    "Latest Commit Message",
-    "Commits in 48 Hrs",
+    "Latest Update",
+    "Latest Commit",
+    "Total Commits",
     "Programming Language",
-    "#Open Issues",
+    "Number of Opened Issues",
   ];
   emptyHeaderCell = document.createElement("th");
   emptyHeaderCell.setAttribute("class", "column100 column1");
@@ -162,22 +162,69 @@ function createCapBody(projectTable) {
   var projectTableBody = document.createElement("tbody");
   projectTable.appendChild(projectTableBody);
   // create project info row by row
-  for (var i =0; i < lax3Students.length; i++){
-// create a row
+  for (var i = 0; i < lax3Students.length; i++) {
+    // create a row
     var dataRow = document.createElement("tr");
     projectTableBody.appendChild(dataRow);
-    dataRow.setAttribute("class","row100");
+    dataRow.setAttribute("class", "row100");
     // repo name
     var repoNameCell = document.createElement("td");
     repoNameCell.setAttribute("class", "column100 column1");
     repoNameCell.setAttribute("data-column", "column1");
-    repoNameCell.innerHTML = cap1RepoInfo[i]["name"]
+    repoNameCell.innerHTML = capString(cap1RepoInfo[i]["name"]);
     dataRow.appendChild(repoNameCell);
 
     //  append each column cell
-    for (var j =0; j< colNames.length + 1; j++){
-      class_ = "column100 column" + String(i + 2);
-      column_ = "column" + String(i + 2);
+    for (var j = 0; j < colNames.length; j++) {
+      dataCell = document.createElement("td");
+      class_ = "column100 column" + String(j + 2);
+      column_ = "column" + String(j + 2);
+      dataCell.setAttribute("class", class_);
+      dataCell.setAttribute("data-column", column_);
+      dataRow.append(dataCell);
+      // TODO
+      switch (j) {
+        // Creator
+        case 0:
+          dataCell.innerHTML = lax3Students[i]["name"];
+          break;
+        //GitHub User
+        case 1:
+          dataCell.innerHTML = lax3Students[i]["github_id"];
+          break;
+        // Latest Update Time
+        case 2:
+          var lastUpdateTime = new Date(cap1RepoInfo[i]["pushed_at"]);
+          dataCell.innerHTML = lastUpdateTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', day: '2-digit', month: '2-digit'});;
+          break;
+        // Latest Commit Message
+        case 3:
+          var lastCommit = cap1RepoCommits[i][0]["commit"]["message"];
+          dataCell.innerHTML = capString(lastCommit);
+          break;
+        // total commit
+        case 4:
+          var totalCommit = cap1RepoCommits[i].length;
+          dataCell.innerHTML = totalCommit;
+          break;
+        case 5:
+          var language = cap1RepoInfo[i]["language"];
+          dataCell.innerHTML = language;
+          break;
+        case 6:
+          var totalIssue = cap1RepoInfo[i]["open_issues_count"];
+          dataCell.innerHTML = totalIssue;
+          break
+      }
     }
+  }
+}
+
+function capString(string){
+  if (string.length > 20){
+     return string.slice(0,20) + "...";
+  }
+  else{
+    return string;
   }
 }
