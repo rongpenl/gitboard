@@ -1,14 +1,8 @@
-// import {
-//   lax3Students,
-//   repoEndpoint,
-//   userEndpoint,
-//   projectColNames,
-//   profileColNames,
-// } from "./data/constant";
-
 var cap1RepoInfo = [];
 var cap1RepoCommits = [];
 var githubprofileInfo = [];
+var githubRepoInfo = [];
+var githubTotalCommits = [];
 
 async function fetchData() {
   for (var i = 0; i < lax3Students.length; i++) {
@@ -19,7 +13,7 @@ async function fetchData() {
         repoEndpoint + student["github_id"] + "/" + student["capstone1_repo"];
       var commitUrl = url + "/commits";
       var userUrl = userEndpoint + student["github_id"];
-      var repoName = student["capstone1_repo"];
+      var reposUrl = userUrl + "/repos";
       // user information
       await fetch(userUrl)
         .then((data) => {
@@ -28,8 +22,35 @@ async function fetchData() {
         .then((res) => {
           githubprofileInfo.push(res);
         });
-
       // repo information
+      await fetch(reposUrl)
+        .then((data) => {
+          return data.json();
+        })
+        .then((res) => {
+          githubRepoInfo.push(res);
+        });
+      // fetch number of total commits
+      // TODO: This will trigger the limit rate, skip for now.
+      // let allRepoNames = githubRepoInfo[githubRepoInfo.length - 1].map(
+      //   (repo) => repo["name"]
+      // );
+      // var repoCount = 0;
+      // for (const name of allRepoNames) {
+      //   let repoUrl =
+      //     repoEndpoint + student["github_id"] + "/" + name + "/commits";
+      //   await fetch(repoUrl)
+      //     .then((data) => {
+      //       repoCount += data.json().length;
+      //     })
+      //     .catch((error)=>{
+      //       console.log(error)
+      //       repoCount += 0;
+      //     });
+      // }
+      // githubTotalCommits.push(repoCount);
+
+      // capstone 1 repo information
       await fetch(url)
         .then((data) => {
           return data.json();
@@ -141,7 +162,12 @@ function createProfileBody(profileTable) {
       switch (j) {
         // Data Science Name
         case 0:
-          dataCell.innerHTML = lax3Students[i]["name"];
+          dataCell.appendChild(
+            createLink(
+              lax3Students[i]["name"],
+              linkedinEndpoint + lax3Students[i]["linkedin_id"]
+            )
+          );
           break;
         //Location
         case 1:
@@ -155,7 +181,11 @@ function createProfileBody(profileTable) {
         // Twitter user name
         case 3:
           var twitterUsername = githubprofileInfo[i]["twitter_username"];
-          dataCell.innerHTML = twitterUsername;
+          if (twitterUsername !== null) {
+            dataCell.appendChild(
+              createLink(twitterUsername, twitterEndpoint + twitterUsername)
+            );
+          }
           break;
         // Public Repos
         case 4:
@@ -167,10 +197,25 @@ function createProfileBody(profileTable) {
           var followers = githubprofileInfo[i]["followers"];
           dataCell.innerHTML = followers;
           break;
-        // Latest Activity Time
+        // Total Stars
         case 6:
-          var lastUpdateTime = new Date(githubprofileInfo[i]["updated_at"]);
-          dataCell.innerHTML = lastUpdateTime.toLocaleTimeString([], {
+          var totalStar = 0;
+          var repos = githubRepoInfo[i];
+          for (var idx = 0; idx < repos.length; idx++) {
+            totalStar += repos[idx]["stargazers_count"];
+          }
+          dataCell.innerHTML = totalStar;
+          break;
+        // Latest Active Time
+        case 7:
+          let dates = githubRepoInfo[i].map((x) => new Date(x["pushed_at"]));
+          // https://stackoverflow.com/a/7143443/3836903
+          let lastUpdateTime = new Date(
+            dates.reduce(function (a, b) {
+              return a > b ? a : b;
+            })
+          );
+          dataCell.innerHTML = lastUpdateTime.toLocaleTimeString("en-GB", {
             hour: "2-digit",
             minute: "2-digit",
             day: "2-digit",
@@ -230,7 +275,12 @@ function createCapBody(projectTable) {
     var repoNameCell = document.createElement("td");
     repoNameCell.setAttribute("class", "column100 column1");
     repoNameCell.setAttribute("data-column", "column1");
-    repoNameCell.innerHTML = capString(cap1RepoInfo[i]["name"]);
+    repoNameCell.appendChild(
+      createLink(
+        capString(cap1RepoInfo[i]["name"]),
+        cap1RepoInfo[i]["html_url"]
+      )
+    );
     dataRow.appendChild(repoNameCell);
 
     //  append each column cell
@@ -249,12 +299,17 @@ function createCapBody(projectTable) {
           break;
         //GitHub User
         case 1:
-          dataCell.innerHTML = lax3Students[i]["github_id"];
+          dataCell.appendChild(
+            createLink(
+              lax3Students[i]["github_id"],
+              githubEndpoint + lax3Students[i]["github_id"]
+            )
+          );
           break;
         // Latest Update Time
         case 2:
           var lastUpdateTime = new Date(cap1RepoInfo[i]["pushed_at"]);
-          dataCell.innerHTML = lastUpdateTime.toLocaleTimeString([], {
+          dataCell.innerHTML = lastUpdateTime.toLocaleTimeString("en-GB", {
             hour: "2-digit",
             minute: "2-digit",
             day: "2-digit",
@@ -264,7 +319,10 @@ function createCapBody(projectTable) {
         // Latest Commit Message
         case 3:
           var lastCommit = cap1RepoCommits[i][0]["commit"]["message"];
-          dataCell.innerHTML = capString(lastCommit);
+          var lastCommitUrl = cap1RepoCommits[i][0]["html_url"];
+          dataCell.appendChild(
+            createLink(capString(lastCommit), lastCommitUrl)
+          );
           break;
         // total commit
         case 4:
@@ -305,6 +363,8 @@ async function main() {
       githubprofileInfo = JSON.parse(sessionStorage.getItem("githubProfile"));
       cap1RepoCommits = JSON.parse(sessionStorage.getItem("cap1Commits"));
       cap1RepoInfo = JSON.parse(sessionStorage.getItem("cap1Info"));
+      githubRepoInfo = JSON.parse(sessionStorage.getItem("githubRepo"));
+      githubTotalCommits = JSON.parse(sessionStorage.getItem("totalCommits"));
     }
   } catch (err) {
     console.log(err);
@@ -312,6 +372,8 @@ async function main() {
     sessionStorage.setItem("githubProfile", JSON.stringify(githubprofileInfo));
     sessionStorage.setItem("cap1Commits", JSON.stringify(cap1RepoCommits));
     sessionStorage.setItem("cap1Info", JSON.stringify(cap1RepoInfo));
+    sessionStorage.setItem("githubRepo", JSON.stringify(githubRepoInfo));
+    sessionStorage.setItem("totalCommits", JSON.stringify(githubTotalCommits));
   }
   populateProfile();
   populateProject();
@@ -333,7 +395,20 @@ const comparer = (idx, asc) => (a, b) =>
     getCellValue(asc ? b : a, idx)
   );
 // https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript
-function addSorting() {
+
+
+
+function createLink(title, href) {
+  let a = document.createElement("a");
+  a.setAttribute("target", "_blank");
+  a.setAttribute("rel", "noopener noreferrer");
+  a.appendChild(document.createTextNode(title));
+  a.title = title;
+  a.href = href;
+  return a;
+}
+
+function addSorting(){
   document.querySelectorAll("th").forEach((th) => {
     th.addEventListener("click", () => {
       const table = th.closest("thead").nextSibling;

@@ -96,6 +96,13 @@ iframe {
   margin: 0 auto;
 }
 
+.table-desc-header {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  background-color:#808080;
+}
+
 .container-table100 {
   width: 100%;
   min-height: 100vh;
