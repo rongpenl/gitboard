@@ -48,6 +48,13 @@ const lax3Students = [
     capstone1_repo: "DSIcap1HorsinAround",
     campus: "LAX"
   },
+  {
+    name: "Ron Li",
+    github_id: "rongpenl",
+    linkedin_id:"ron-li-6531bb1b7",
+    capstone1_repo: "gitboard",
+    campus: "LAX"
+  },
 ];
 
 const linkedinEndpoint = "https://www.linkedin.com/in/";
