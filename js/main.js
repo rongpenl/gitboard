@@ -1,5 +1,5 @@
-var cap1RepoInfo = [];
-var cap1RepoCommits = [];
+var currentRepoInfo = [];
+var currentRepoCommits = [];
 var githubprofileInfo = [];
 var githubRepoInfo = [];
 var githubTotalCommits = [];
@@ -8,9 +8,9 @@ async function fetchData() {
   for (var i = 0; i < lax3Students.length; i++) {
     var student = lax3Students[i];
     // fetch repo information
-    if (student["capstone1_repo"] != null) {
+    if (student["current_project_repo"] != null) {
       var url =
-        repoEndpoint + student["github_id"] + "/" + student["capstone1_repo"];
+        repoEndpoint + student["github_id"] + "/" + student["current_project_repo"];
       var commitUrl = url + "/commits";
       var userUrl = userEndpoint + student["github_id"];
       var reposUrl = userUrl + "/repos";
@@ -56,7 +56,7 @@ async function fetchData() {
           return data.json();
         })
         .then((res) => {
-          cap1RepoInfo.push(res);
+          currentRepoInfo.push(res);
         });
       // commit information
       await fetch(commitUrl)
@@ -64,7 +64,7 @@ async function fetchData() {
           return data.json();
         })
         .then((res) => {
-          cap1RepoCommits.push(res);
+          currentRepoCommits.push(res);
         });
     }
   }
@@ -277,8 +277,8 @@ function createCapBody(projectTable) {
     repoNameCell.setAttribute("data-column", "column1");
     repoNameCell.appendChild(
       createLink(
-        capString(cap1RepoInfo[i]["name"]),
-        cap1RepoInfo[i]["html_url"]
+        capString(currentRepoInfo[i]["name"]),
+        currentRepoInfo[i]["html_url"]
       )
     );
     dataRow.appendChild(repoNameCell);
@@ -308,7 +308,7 @@ function createCapBody(projectTable) {
           break;
         // Latest Update Time
         case 2:
-          var lastUpdateTime = new Date(cap1RepoInfo[i]["pushed_at"]);
+          var lastUpdateTime = new Date(currentRepoInfo[i]["pushed_at"]);
           dataCell.innerHTML = lastUpdateTime.toLocaleTimeString("en-GB", {
             hour: "2-digit",
             minute: "2-digit",
@@ -318,23 +318,23 @@ function createCapBody(projectTable) {
           break;
         // Latest Commit Message
         case 3:
-          var lastCommit = cap1RepoCommits[i][0]["commit"]["message"];
-          var lastCommitUrl = cap1RepoCommits[i][0]["html_url"];
+          var lastCommit = currentRepoCommits[i][0]["commit"]["message"];
+          var lastCommitUrl = currentRepoCommits[i][0]["html_url"];
           dataCell.appendChild(
             createLink(capString(lastCommit), lastCommitUrl)
           );
           break;
         // total commit
         case 4:
-          var totalCommit = cap1RepoCommits[i].length;
+          var totalCommit = currentRepoCommits[i].length;
           dataCell.innerHTML = totalCommit;
           break;
         case 5:
-          var language = cap1RepoInfo[i]["language"];
+          var language = currentRepoInfo[i]["language"];
           dataCell.innerHTML = language;
           break;
         case 6:
-          var totalIssue = cap1RepoInfo[i]["open_issues_count"];
+          var totalIssue = currentRepoInfo[i]["open_issues_count"];
           dataCell.innerHTML = totalIssue;
           break;
       }
@@ -361,8 +361,8 @@ async function main() {
       throw Error("No cached data found");
     } else {
       githubprofileInfo = JSON.parse(sessionStorage.getItem("githubProfile"));
-      cap1RepoCommits = JSON.parse(sessionStorage.getItem("cap1Commits"));
-      cap1RepoInfo = JSON.parse(sessionStorage.getItem("cap1Info"));
+      currentRepoCommits = JSON.parse(sessionStorage.getItem("currentCommits"));
+      currentRepoInfo = JSON.parse(sessionStorage.getItem("currentInfo"));
       githubRepoInfo = JSON.parse(sessionStorage.getItem("githubRepo"));
       githubTotalCommits = JSON.parse(sessionStorage.getItem("totalCommits"));
     }
@@ -370,8 +370,8 @@ async function main() {
     console.log(err);
     await fetchData();
     sessionStorage.setItem("githubProfile", JSON.stringify(githubprofileInfo));
-    sessionStorage.setItem("cap1Commits", JSON.stringify(cap1RepoCommits));
-    sessionStorage.setItem("cap1Info", JSON.stringify(cap1RepoInfo));
+    sessionStorage.setItem("currentCommits", JSON.stringify(currentRepoCommits));
+    sessionStorage.setItem("currentInfo", JSON.stringify(currentRepoInfo));
     sessionStorage.setItem("githubRepo", JSON.stringify(githubRepoInfo));
     sessionStorage.setItem("totalCommits", JSON.stringify(githubTotalCommits));
   }
