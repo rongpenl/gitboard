@@ -1,5 +1,5 @@
 # gitboard
-Vanilla Javascript single page GitHub profile tracker.
+Vanilla Javascript single page GitHub profile tracker. Check the [demo](https://elegant-bose-38174f.netlify.app/).
 
 ![demo](./img/demo.jpg)
 
