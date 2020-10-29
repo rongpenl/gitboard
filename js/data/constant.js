@@ -31,7 +31,7 @@ const githubUsers = [
     name: "Mary MacCarthy",
     github_id: "marymac17",
     linkedin_id: "mary-maccarthy",
-    current_project_repo: "capstone_one-",
+    current_project_repo: "capstone_one",
     campus:"LAX"
   },
   {
