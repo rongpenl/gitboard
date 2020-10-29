@@ -23,4 +23,4 @@ Original table css is adopted from this [site](https://colorlib.com/etc/tb/Table
 
 ## Request feature
 
-Just create an issue or pull request
+Just create an issue or pull request.
