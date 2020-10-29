@@ -148,7 +148,7 @@ function createProfileBody(profileTable) {
     var studentNameCell = document.createElement("td");
     studentNameCell.setAttribute("class", "column100 column1");
     studentNameCell.setAttribute("data-column", "column1");
-    studentNameCell.innerHTML = capString(githubprofileInfo[i]["login"]);
+    studentNameCell.innerHTML = lax3Students[i]["name"];
     dataRow.appendChild(studentNameCell);
 
     //  append each column cell
