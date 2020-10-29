@@ -1,4 +1,4 @@
-const lax3Students = [
+const githubUsers = [
   {
     name: "Aydin Hasanli",
     github_id: "aydin-hasanli",

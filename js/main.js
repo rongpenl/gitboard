@@ -5,8 +5,8 @@ var githubRepoInfo = [];
 var githubTotalCommits = [];
 
 async function fetchData() {
-  for (var i = 0; i < lax3Students.length; i++) {
-    var student = lax3Students[i];
+  for (var i = 0; i < githubUsers.length; i++) {
+    var student = githubUsers[i];
     // fetch repo information
     if (student["current_project_repo"] != null) {
       var url =
@@ -139,7 +139,7 @@ function createProfileBody(profileTable) {
   var profileTableBody = document.createElement("tbody");
   profileTable.appendChild(profileTableBody);
   // create project info row by row
-  for (var i = 0; i < lax3Students.length; i++) {
+  for (var i = 0; i < githubUsers.length; i++) {
     // create a row
     var dataRow = document.createElement("tr");
     profileTableBody.appendChild(dataRow);
@@ -148,7 +148,7 @@ function createProfileBody(profileTable) {
     var studentNameCell = document.createElement("td");
     studentNameCell.setAttribute("class", "column100 column1");
     studentNameCell.setAttribute("data-column", "column1");
-    studentNameCell.innerHTML = lax3Students[i]["name"];
+    studentNameCell.innerHTML = githubUsers[i]["name"];
     dataRow.appendChild(studentNameCell);
 
     //  append each column cell
@@ -164,8 +164,8 @@ function createProfileBody(profileTable) {
         case 0:
           dataCell.appendChild(
             createLink(
-              lax3Students[i]["name"],
-              linkedinEndpoint + lax3Students[i]["linkedin_id"]
+              githubUsers[i]["name"],
+              linkedinEndpoint + githubUsers[i]["linkedin_id"]
             )
           );
           break;
@@ -266,7 +266,7 @@ function createCapBody(projectTable) {
   var projectTableBody = document.createElement("tbody");
   projectTable.appendChild(projectTableBody);
   // create project info row by row
-  for (var i = 0; i < lax3Students.length; i++) {
+  for (var i = 0; i < githubUsers.length; i++) {
     // create a row
     var dataRow = document.createElement("tr");
     projectTableBody.appendChild(dataRow);
@@ -295,14 +295,14 @@ function createCapBody(projectTable) {
       switch (j) {
         // Creator
         case 0:
-          dataCell.innerHTML = lax3Students[i]["name"];
+          dataCell.innerHTML = githubUsers[i]["name"];
           break;
         //GitHub User
         case 1:
           dataCell.appendChild(
             createLink(
-              lax3Students[i]["github_id"],
-              githubEndpoint + lax3Students[i]["github_id"]
+              githubUsers[i]["github_id"],
+              githubEndpoint + githubUsers[i]["github_id"]
             )
           );
           break;
@@ -367,7 +367,6 @@ async function main() {
       githubTotalCommits = JSON.parse(sessionStorage.getItem("totalCommits"));
     }
   } catch (err) {
-    console.log(err);
     await fetchData();
     sessionStorage.setItem("githubProfile", JSON.stringify(githubprofileInfo));
     sessionStorage.setItem("currentCommits", JSON.stringify(currentRepoCommits));
