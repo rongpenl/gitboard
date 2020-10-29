@@ -11,10 +11,10 @@ Note that GitHub API has a rate [limit](https://developer.github.com/v3/#rate-li
 ## Bring your own data.
 All data is in [constant.js](./js/data/constant.js).
 
-## To do
+## Todo
 1. [ ] enable asynchronized call to speed up loading.
 2. [ ] enable dynamically adding profile.
-3. [ ] more visually appealing.
+3. [ ] Responsive design.
 4. [ ] rewrite in Vue or React?
 
 ## Resources
