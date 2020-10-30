@@ -3,7 +3,7 @@ const githubUsers = [
     name: "Aydin Hasanli",
     github_id: "aydin-hasanli",
     linkedin_id: "aydin-hasanli",
-    current_project_repo: "Tracking-the-Sun",
+    current_project_repo: "Solar-Panel-EDA",
     campus: "LAX"
   },
   {
