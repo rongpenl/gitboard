@@ -6,7 +6,7 @@ Vanilla Javascript single page GitHub profile tracker. Check the [demo](https://
 [![Deploy](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rongpenl/gitboard/)
 
 ## Rate limit
-Note that GitHub API has a rate [limit](https://developer.github.com/v3/#rate-limiting). 
+Note that GitHub API has a rate [limit](https://developer.github.com/v3/#rate-limiting). If you want to develop the program locally and test intensively, use local server and fake data provided in the [server](server/) folder.
 
 ## Bring your own data.
 All data is in [constant.js](./js/data/constant.js).
