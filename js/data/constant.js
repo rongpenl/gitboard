@@ -17,14 +17,14 @@ const githubUsers = [
     name: "Joshua Chow",
     github_id: "thejoshchow",
     linkedin_id: "thejoshchow",
-    current_project_repo: "coffee-arabica",
+    current_project_repo: "ttc",
     campus: "LAX"
   },
   {
     name: "Kacie Webster",
     github_id: "kaciewebster",
     linkedin_id: "kacie-webster",
-    current_project_repo: "ca-fire-incidents",
+    current_project_repo: "nba-player-analysis",
     campus: "LAX"
   },
   {
