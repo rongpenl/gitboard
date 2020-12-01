@@ -3,14 +3,14 @@ const githubUsers = [
     name: "Aydin Hasanli",
     github_id: "aydin-hasanli",
     linkedin_id: "aydin-hasanli",
-    current_project_repo: "Solar-Panel-EDA",
+    current_project_repo: "age_gender_prediction",
     campus: "LAX"
   },
   {
     name: "Evgeny Grobov",
     github_id: "evgenygrobov",
     linkedin_id: "egrobov",
-    current_project_repo: "AIRBNB_NYC",
+    current_project_repo: "Customer-churn-prediction",
     campus: "LAX"
   },
   {
@@ -31,21 +31,21 @@ const githubUsers = [
     name: "Mary MacCarthy",
     github_id: "marymac17",
     linkedin_id: "mary-maccarthy",
-    current_project_repo: "capstone_one",
+    current_project_repo: "tweetanalysis_vaccines",
     campus:"LAX"
   },
   {
     name: "Opa Towobola",
     github_id: "CarveTheFuture",
     linkedin_id: "carvethefuture",
-    current_project_repo: "TrendsInEnergyDevelopmentAndHealth",
+    current_project_repo: "Forecasting",
     campus: "LAX"
   },
   {
     name: "Zi Yang",
     github_id: "zyang0009",
     linkedin_id:"zidawnyang",
-    current_project_repo: "DSIcap1HorsinAround",
+    current_project_repo: "dsicapstone2",
     campus: "LAX"
   },
   {
